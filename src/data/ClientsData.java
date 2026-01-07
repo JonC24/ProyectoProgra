@@ -33,4 +33,14 @@ public class ClientsData {
 			return new ArrayList<Clients>();
 		}
 	}
+	
+	public static void deletStudent(Clients clients) {
+		try {
+			
+		}catch(Exception e) {
+			System.out.println("Error al borrar este elemento");
+			e.printStackTrace();
+		}
+	}
+	
 }

@@ -33,20 +33,15 @@
 		              .constructCollectionType(List.class, temp)
 		    );
 		}
-	/**
-	 * public List<T> getAll(Class<T> temp) throws IOException{
-			File file = new File(this.filePath);
-			if(!file.exists()) {
-				return new ArrayList<T>();
-			}
+		
+		public void deleteElement(T t, String d)throws IOException{
+			List<T> temp = getAll((Class<T>) t.getClass());
+			int index = 0;
 			
-			return this.mapper.readValue(file, mapper.getTypeFactory()
-					.constructCollectionType(List.class, temp));
+			
+			
+			temp.remove(index);
 		}
-	 * */
-		
-		
-		
 		
 		public void saveElement(T t)throws IOException{
 			List<T> temp = getAll((Class<T>) t.getClass());
