@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="304.0" prefWidth="180.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label fx:id="lbPlate" layoutX="14.0" layoutY="14.0" text="Placa" />
+      <TextField fx:id="tfPlate" layoutX="14.0" layoutY="31.0" />
+      <Label fx:id="lbBrand" layoutX="14.0" layoutY="56.0" text="Marca" />
+      <TextField fx:id="tfBrand" layoutX="14.0" layoutY="73.0" />
+      <Label fx:id="lbModel" layoutX="14.0" layoutY="98.0" text="Modelo" />
+      <TextField fx:id="tfModel" layoutX="16.0" layoutY="115.0" />
+      <Label fx:id="lbYear" layoutX="15.0" layoutY="140.0" text="Año" />
+      <TextField fx:id="tfYear" layoutX="14.0" layoutY="157.0" />
+      <Label fx:id="lbFuelType" layoutX="14.0" layoutY="182.0" text="Tipo de combustible" />
+      <Button fx:id="btnEditVehicle" layoutX="26.0" layoutY="269.0" mnemonicParsing="false" onAction="#SaveVehicle" text="Guardar" />
+      <Button fx:id="btnCancel" layoutX="89.0" layoutY="269.0" mnemonicParsing="false" onAction="#Cancel" text="Cancelar" />
+      <ComboBox fx:id="cbxFuelType" layoutX="15.0" layoutY="199.0" onAction="#ChooseFuelType" prefHeight="25.0" prefWidth="149.0" />
+      <Label fx:id="lbOwner" layoutX="17.0" layoutY="224.0" text="Cliente Dueño" />
+      <ComboBox fx:id="cbxOwner" layoutX="14.0" layoutY="241.0" onAction="#ChooseOwner" prefHeight="25.0" prefWidth="149.0" />
+   </children>
+</AnchorPane>
