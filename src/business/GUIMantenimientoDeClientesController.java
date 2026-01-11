@@ -27,8 +27,6 @@ public class GUIMantenimientoDeClientesController {
 	@FXML
 	private Button btnCancelar;
 	
-	
-
 	// Event Listener on Button[#btnNewClient].onAction
 	@FXML
 	public void CreateClient(ActionEvent event) {
@@ -65,7 +63,6 @@ public class GUIMantenimientoDeClientesController {
 		loadView("/gui/MenuGeneral.fxml", btnCancelar);
     }
     
-	
 	private void loadView(String fxmlPath, Button triggerButton) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));

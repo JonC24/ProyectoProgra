@@ -64,16 +64,16 @@ public class EditClientController {
         return message.isEmpty();
     }
 
-    @FXML
-    public void Cancel(ActionEvent event) {
-        try {
+    	@FXML
+    	public void Cancel(ActionEvent event) {
+        	try {
         	FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/GUIMantenimientoDeClientes.fxml"));
             Parent root = loader.load();
             Scene scene = btnCancel.getScene();
             scene.setRoot(root);
             scene.getWindow().sizeToScene();
-        } catch (IOException e) {
+        	} catch (IOException e) {
             e.printStackTrace();
-        }
-    }
+        	}
+    	}
 }
