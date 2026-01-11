@@ -13,7 +13,7 @@ public class MenuGeneralController {
 
     // 2. Agregado el Label que pediste
     @FXML
-    private Label lbMenuDeInicio;
+    private Label lbStarUpMenu;
 
     @FXML
     private ComboBox<String> cbxChooseMenu;
@@ -49,11 +49,11 @@ public class MenuGeneralController {
         }
 
         if (!fxmlDestino.isEmpty()) {
-            cambiarVista(fxmlDestino);
+            changeView(fxmlDestino);
         }
     }
 
-    private void cambiarVista(String fxml) {
+    private void changeView(String fxml) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
             Parent nuevaVista = loader.load();

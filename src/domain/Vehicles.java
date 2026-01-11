@@ -4,11 +4,10 @@ import java.time.Year;
 
 public class Vehicles {
 	
-	private String plate, brand, model, propertyOwner;
-	private Year year;
+	private String plate, brand, model, propertyOwner, year;
 	private String fuelType;
 	
-	public Vehicles(String plate, String brand, String model, String propertyOwner, Year year, String fuelType) {
+	public Vehicles(String plate, String brand, String model, String propertyOwner, String year, String fuelType) {
 		super();
 		this.plate = plate;
 		this.brand = brand;
@@ -50,11 +49,11 @@ public class Vehicles {
 		this.propertyOwner = propertyOwner;
 	}
 
-	public Year getYear() {
+	public String getYear() {
 		return year;
 	}
 
-	public void setYear(Year year) {
+	public void setYear(String year) {
 		this.year = year;
 	}
 
