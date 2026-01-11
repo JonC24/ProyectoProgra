@@ -1,10 +1,9 @@
 package domain;
 
 public class Clients {
-	private int ID,Phone;
-	private String Name, email, adress;
+	private String Name, email, adress,ID,Phone;
 	
-	public Clients(int iD, int phone, String name, String email, String adress) {
+	public Clients(String iD, String phone, String name, String email, String adress) {
 		super();
 		ID = iD;
 		Phone = phone;
@@ -13,22 +12,22 @@ public class Clients {
 		this.adress = adress;
 	}
 
-	public int getID() {
+	public String getID() {
 		return ID;
 	}
 
 
-	public void setID(int iD) {
+	public void setID(String iD) {
 		ID = iD;
 	}
 
 
-	public int getPhone() {
+	public String getPhone() {
 		return Phone;
 	}
 
 
-	public void setPhone(int phone) {
+	public void setPhone(String phone) {
 		Phone = phone;
 	}
 

@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1">
-	<!-- TODO Add Nodes -->
+
+<AnchorPane fx:controller="business.MenuGeneralController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="361.0" prefWidth="483.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label fx:id="lbStarUpMenu" layoutX="101.0" layoutY="103.0" text="Menu de inicio">
+         <font>
+            <Font size="40.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="cbxChooseMenu" layoutX="167.0" layoutY="181.0" onAction="#ChooseMenu" prefHeight="31.0" prefWidth="150.0" />
+   </children>
 </AnchorPane>
-
