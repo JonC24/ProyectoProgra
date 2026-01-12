@@ -14,11 +14,7 @@ public class MechanicsData {
 
 	public static boolean save(Mechanics mechanics) {
 		try {
-			for(int i =0; i<getList().size(); i++) {
-				if(getList().get(i).getID().equalsIgnoreCase(mechanics.getID())){
-					return false;
-				}
-			}
+			mechanics.setID(automaticId());
 			jsonUtils.saveElement(mechanics);
 			return true;
 			
@@ -80,6 +76,24 @@ public class MechanicsData {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public static String automaticId() {
+
+	    // 1. Si la lista está vacía, empezamos en 1
+	    if (getList() == null || getList().isEmpty()) {
+	        return Integer.toString(1);
+	    }
+	    // 2. Buscamos el ID más grande que ya exista
+	    int maxId = 0;
+	    for (Mechanics m : getList()) {
+	        if (Integer.parseInt(m.getID())> maxId) {
+	            maxId = Integer.parseInt(m.getID());
+	        }
+	    }
+
+	    // 3. El nuevo ID es el máximo encontrado + 1
+	    return Integer.toString(maxId + 1);
 	}
 	
 }
