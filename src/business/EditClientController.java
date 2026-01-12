@@ -27,11 +27,6 @@ public class EditClientController {
     // Variable para guardar el cliente original que estamos editando
     private Clients originalClient;
 
-    /**
-     * ESTE MÉTODO ES CLAVE:
-     * Se llama desde la ventana anterior (TableView) para pasar el cliente seleccionado.
-     * Llena los TextFields con la información actual.
-     */
     public void initData(Clients client) {
         this.originalClient = client;
 

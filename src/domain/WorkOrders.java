@@ -13,6 +13,10 @@ public class WorkOrders {
 	private Mechanics mechanic;
 	private List<Services> appliedServices;
 	
+	public WorkOrders() {
+        super();
+    }
+	
 	public WorkOrders(String numOfOrder, LocalDate orderDate, String orderStatus, String observations, double totalCost,
 			Vehicles vehicle, Mechanics mechanic, List<Services> appliedServices) {
 		super();

@@ -5,6 +5,10 @@ public class Services {
 	private String CodeOfService, NameOfService, Description;
 	private double baseCost, estimatedTime;
 	
+	public Services() {
+        super();
+    }
+	
 	public Services(String codeOfService, String nameOfService, String description, double baseCost,
 			double estimatedTime) {
 		super();

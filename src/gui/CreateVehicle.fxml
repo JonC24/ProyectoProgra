@@ -19,7 +19,7 @@
       <Label fx:id="lbFuelType" layoutX="14.0" layoutY="182.0" text="Tipo de combustible" />
       <Button fx:id="btnVehicle" layoutX="26.0" layoutY="269.0" mnemonicParsing="false" onAction="#SaveVehicle" text="Guardar" />
       <Button fx:id="btnCancel" layoutX="89.0" layoutY="269.0" mnemonicParsing="false" onAction="#Cancel" text="Cancelar" />
-      <ComboBox fx:id="cbxTypeFuel" layoutX="14.0" layoutY="199.0" onAction="#ChooseFuel" prefWidth="150.0" />
+      <ComboBox fx:id="cbxTypeFuel" layoutX="14.0" layoutY="199.0" prefWidth="150.0" />
       <Label fx:id="lbOwner" layoutX="17.0" layoutY="224.0" text="Cliente Dueño" />
       <ComboBox fx:id="cbxOwner" layoutX="14.0" layoutY="241.0" prefWidth="150.0" />
    </children>

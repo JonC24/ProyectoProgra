@@ -45,17 +45,22 @@ public class WorkOrdersData {
 		}
 	}
 	
-	public static void edit(WorkOrders workOrders, String id) {
+	public static boolean edit(WorkOrders workOrders, String numOfOrder) {
 		try {
-			for(int i =0; i<getList().size(); i++) {
-				//System.out.println(getList().get(i).toString());
-				if(getList().get(i).getNumOfOrder().equalsIgnoreCase(id)){
-					getList().set(i, workOrders);					
-				}
-			}
-		}catch(Exception e) {
-			System.out.println("Error al editar este elemento");
-			e.printStackTrace();
-		}
+            ArrayList<WorkOrders> list = getList();
+            for(int i = 0; i < list.size(); i++) {
+                if(list.get(i).getNumOfOrder().equalsIgnoreCase(numOfOrder)){
+                    
+                    jsonUtils.deleteElement(list.get(i), i);
+                    jsonUtils.saveElement(workOrders);
+                    
+                    return true; 
+                }
+            }
+        } catch(Exception e) {
+            System.out.println("Error al editar este elemento");
+            e.printStackTrace();
+        }
+        return false;
 	}
 }

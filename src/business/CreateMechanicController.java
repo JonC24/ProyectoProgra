@@ -12,6 +12,10 @@ import javafx.scene.control.Alert.AlertType;
 
 import java.io.IOException;
 
+import data.ClientsData;
+import data.MechanicsData;
+import domain.Clients;
+import domain.Mechanics;
 import javafx.event.ActionEvent;
 
 import javafx.scene.control.Label;
@@ -42,8 +46,20 @@ public class CreateMechanicController {
 
 	@FXML
 	public void initialize() {
-		cbxSpeciality.getItems().addAll("","mecánica general", "frenos", "electricidad", "motor");
+		cbxSpeciality.getItems().addAll("mecánica general", "frenos", "electricidad", "motor");
 	}
+	
+	 public void restartWindow() {
+	    	try {
+	            FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/GUIMantenimientoDeMecanicos.fxml"));
+	            Parent root = loader.load();
+	            Scene scene = btnCancel.getScene();
+	            scene.setRoot(root);
+	            scene.getWindow().sizeToScene();
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	    }
 	
 		private boolean validForm() {
 			String message = "";
@@ -97,21 +113,43 @@ public class CreateMechanicController {
 
 			return message.isEmpty();
 		}
-
+		
 		// Event Listener on Button[#btnEdit].onAction
-		@FXML
-		public void EditMechanic(ActionEvent event) {
-			if (validForm()) {
-				
-				System.out.println("Datos de mecánico válidos. Guardando cambios...");
-			}
-		}
+				@FXML
+		public void SaveMechanic(ActionEvent event) {
+					if (validForm()) {
+			            String name = tfFullName.getText().trim();
+			            String phone = tfPhone.getText().trim();
+			            String email = tfEmail.getText().trim();
+			            String speciality = cbxSpeciality.getValue().toString();
+			           
+			            Mechanics newMechanic = new Mechanics(null, name, speciality, email, phone);
+
+			            
+			            if (MechanicsData.save(newMechanic)) {
+			                Alert alert = new Alert(AlertType.INFORMATION);
+			                alert.setHeaderText("Registro Exitoso");
+			                alert.setTitle("Validación");
+			                alert.setContentText("El Mecanico se guardó correctamente.");
+			                alert.show();
+			            } else {
+			                Alert alert = new Alert(AlertType.ERROR);
+			                alert.setHeaderText("Error al Guardar");
+			                alert.setTitle("Validación");
+			                alert.setContentText("No se pudo guardar el mecanico.");
+			                alert.show();
+			            }
+			        }
+					restartWindow();
+				}
+
+		
 		
 	// Event Listener on Button[#btnCancel].onAction
 	@FXML
 	public void Cancel(ActionEvent event) {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/GUIMantenimientoDeClientes.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/GUIMantenimientoDeMecanicos.fxml"));
 			Parent root = loader.load();
 			Scene scene = btnCancel.getScene();
 			scene.setRoot(root);

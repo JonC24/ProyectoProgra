@@ -17,7 +17,7 @@
       <TextField fx:id="tfDescription" layoutX="14.0" layoutY="157.0" />
       <Label fx:id="lbCostoBase" layoutX="14.0" layoutY="182.0" text="Costo Base" />
       <TextField fx:id="tfCostoBase" layoutX="14.0" layoutY="199.0" />
-      <Button fx:id="bthSave" layoutX="18.0" layoutY="284.0" mnemonicParsing="false" onAction="#SaveClient" text="Guardar" />
+      <Button fx:id="bthSave" layoutX="18.0" layoutY="284.0" mnemonicParsing="false" onAction="#SaveService" text="Guardar" />
       <Button fx:id="btnCancel" layoutX="92.0" layoutY="284.0" mnemonicParsing="false" onAction="#Cancel" text="Cancelar" />
       <ComboBox fx:id="cbxNameOfService" layoutX="13.0" layoutY="73.0" prefWidth="150.0" />
       <Label fx:id="lbEstimatedTime" layoutX="15.0" layoutY="224.0" text="Tiempo Estimado" />

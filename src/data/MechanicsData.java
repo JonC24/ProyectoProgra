@@ -2,6 +2,7 @@ package data;
 
 import java.util.ArrayList;
 
+import domain.Clients;
 import domain.Mechanics;
 
 public class MechanicsData {
@@ -25,19 +26,25 @@ public class MechanicsData {
 		return false;
 	}
 	
-	public static void edit(Mechanics mechanics, String id) {
-		try {
-			for(int i =0; i<getList().size(); i++) {
-				//System.out.println(getList().get(i).toString());
-				if(getList().get(i).getID().equalsIgnoreCase(id)){
-					getList().set(i, mechanics);					
-				}
-			}
-		}catch(Exception e) {
-			System.out.println("Error al editar este elemento");
-			e.printStackTrace();
-		}
-	}
+	public static boolean edit(Mechanics newClientData, String originalId) {
+        try {
+            ArrayList<Mechanics> currentList = getList();
+            for(int i = 0; i < currentList.size(); i++) {
+                if(currentList.get(i).getID().equalsIgnoreCase(originalId)){
+                    
+                    
+                    jsonUtils.deleteElement(currentList.get(i), i);
+                    jsonUtils.saveElement(newClientData);
+                    
+                    return true;
+                }
+            }
+        } catch(Exception e) {
+            System.out.println("Error al editar este elemento");
+            e.printStackTrace();
+        }
+        return false;
+    }
 
 	public static ArrayList<Mechanics> getList() {
 		try {

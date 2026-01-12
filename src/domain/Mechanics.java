@@ -3,9 +3,13 @@ package domain;
 public class Mechanics {
 
 	private String ID, FullName, Speciality, email;
-	private int phone;
+	private String phone;
 	
-	public Mechanics(String iD, String fullName, String speciality, String email, int phone) {
+	public Mechanics() {
+        super();
+    }
+	
+	public Mechanics(String iD, String fullName, String speciality, String email, String phone) {
 		super();
 		ID = iD;
 		FullName = fullName;
@@ -46,11 +50,11 @@ public class Mechanics {
 		this.email = email;
 	}
 
-	public int getPhone() {
+	public String getPhone() {
 		return phone;
 	}
 
-	public void setPhone(int phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 

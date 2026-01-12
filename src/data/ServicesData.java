@@ -30,18 +30,23 @@ public class ServicesData {
 		return false;
 	}
 	
-	public static void edit(Services services, String id) {
-		try {
-			for(int i =0; i<getList().size(); i++) {
-				//System.out.println(getList().get(i).toString());
-				if(getList().get(i).getCodeOfService().equalsIgnoreCase(id)){
-					getList().set(i, services);					
-				}
-			}
-		}catch(Exception e) {
-			System.out.println("Error al editar este elemento");
-			e.printStackTrace();
-		}
+	public static boolean edit(Services services, String codeOfService) {
+		 try {
+	            ArrayList<Services> list = getList();
+	            for(int i = 0; i < list.size(); i++) {
+	                if(list.get(i).getCodeOfService().equalsIgnoreCase(codeOfService)){
+	                    
+	                    jsonUtils.deleteElement(list.get(i), i);
+	                    jsonUtils.saveElement(services);
+	                    
+	                    return true; 
+	                }
+	            }
+	        } catch(Exception e) {
+	            System.out.println("Error al editar este elemento");
+	            e.printStackTrace();
+	        }
+	        return false;
 	}
 	
 

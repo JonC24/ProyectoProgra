@@ -20,7 +20,7 @@ public class MenuGeneralController {
 
     @FXML
     public void initialize() {
-        cbxChooseMenu.getItems().addAll("", "Clientes","Vehiculos", "Mecanicos", "Servicios", "Ordenes de trabajo");
+        cbxChooseMenu.getItems().addAll("Clientes","Vehiculos", "Mecanicos", "Servicios", "Ordenes de trabajo");
     }
 
     @FXML

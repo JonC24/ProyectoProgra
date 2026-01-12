@@ -12,6 +12,10 @@ import javafx.scene.control.TextField;
 
 import java.io.IOException;
 
+import data.ClientsData;
+import data.MechanicsData;
+import domain.Clients;
+import domain.Mechanics;
 import javafx.event.ActionEvent;
 
 import javafx.scene.control.Label;
@@ -19,6 +23,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ComboBox;
 
 public class EditMechanicController {
+	@FXML
+	private Label lbID;
+	@FXML
+	private TextField tfID;
 	@FXML
 	private Label lbFullName;
 	@FXML
@@ -39,12 +47,28 @@ public class EditMechanicController {
 	private Button btnCancel;
 	@FXML
 	private ComboBox cbxSpeciality;
+	
+	private Mechanics originalMechanic;
 
 	
 	@FXML
 	public void initialize() {
-		cbxSpeciality.getItems().addAll("","mecánica general", "frenos", "electricidad", "motor");
+		cbxSpeciality.getItems().addAll("mecánica general", "frenos", "electricidad", "motor");
 	}
+	
+	public void initData(Mechanics mechanic) {
+        this.originalMechanic = mechanic;
+
+        // Llenar los campos visuales
+        tfID.setText(mechanic.getID());
+        tfFullName.setText(mechanic.getFullName());
+        tfPhone.setText(mechanic.getPhone());
+        tfEmail.setText(mechanic.getEmail());
+        cbxSpeciality.setValue(mechanic.getSpeciality());
+
+        // Deshabilitar el ID para que no lo cambien (es la llave primaria)
+        tfID.setDisable(true);
+    }
 	// Método de validación siguiendo el patrón anterior
 		private boolean validForm() {
 			String message = "";
@@ -103,6 +127,36 @@ public class EditMechanicController {
 		@FXML
 		public void EditMechanic(ActionEvent event) {
 			if (validForm()) {
+
+	            String name = tfFullName.getText().trim();
+	            String phone = tfPhone.getText().trim();
+	            String email = tfEmail.getText().trim();
+	            String speciality = cbxSpeciality.getValue().toString();
+	           
+	            Mechanics updatedMechanic = new Mechanics(tfID.getText(), name, speciality, email, phone);
+	            // 4. Llamar a la capa de datos para guardar
+	            // Pasamos el objeto nuevo y el ID original para que el sistema sepa cuál reemplazar
+	           System.out.println(tfID.getText()+"\n"+originalMechanic.getID());
+	            if (MechanicsData.edit(updatedMechanic, originalMechanic.getID())) {
+	                
+	                // ÉXITO
+	                Alert alert = new Alert(AlertType.INFORMATION);
+	                alert.setHeaderText("Actualización Exitosa");
+	                alert.setTitle("Éxito");
+	                alert.setContentText("Los datos del cliente se han actualizado correctamente.");
+	                alert.showAndWait(); // Esperamos a que el usuario de OK
+	                
+	                // Regresamos a la lista
+	                Cancel(event); 
+
+	            } else {
+	                // ERROR
+	                Alert alert = new Alert(AlertType.ERROR);
+	                alert.setHeaderText("Error al Actualizar");
+	                alert.setTitle("Error");
+	                alert.setContentText("No se pudo actualizar la información en la base de datos.");
+	                alert.show();
+	            }
 				
 				System.out.println("Datos de mecánico válidos. Guardando cambios...");
 			}
@@ -112,7 +166,7 @@ public class EditMechanicController {
 	@FXML
 	public void Cancel(ActionEvent event) {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/GUIMantenimientoDeClientes.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/GUIMantenimientoDeMecanicos.fxml"));
 			Parent root = loader.load();
 			Scene scene = btnCancel.getScene();
 			scene.setRoot(root);

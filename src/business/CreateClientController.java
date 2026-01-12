@@ -60,6 +60,7 @@ public class CreateClientController {
                 alert.show();
             }
         }
+        restartWindow();
     }
     
     private void cleanFields() {
@@ -128,6 +129,18 @@ public class CreateClientController {
         }
 
         return message.isEmpty();
+    }
+    
+    public void restartWindow() {
+    	try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/GUIMantenimientoDeClientes.fxml"));
+            Parent root = loader.load();
+            Scene scene = btnCancel.getScene();
+            scene.setRoot(root);
+            scene.getWindow().sizeToScene();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
