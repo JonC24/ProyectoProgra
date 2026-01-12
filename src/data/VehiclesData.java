@@ -2,6 +2,7 @@ package data;
 
 import java.util.ArrayList;
 
+import domain.Clients;
 import domain.Vehicles;
 
 public class VehiclesData {
@@ -28,6 +29,20 @@ public class VehiclesData {
 		}
 		return false;
 	}
+	
+	public static void edit(Vehicles vehicles, String id) {
+		try {
+			for(int i =0; i<getList().size(); i++) {
+				//System.out.println(getList().get(i).toString());
+				if(getList().get(i).getPlate().equalsIgnoreCase(id)){
+					getList().set(i, vehicles);					
+				}
+			}
+		}catch(Exception e) {
+			System.out.println("Error al editar este elemento");
+			e.printStackTrace();
+		}
+	}
 
 	public static ArrayList<Vehicles> getList() {
 		try {
@@ -51,6 +66,21 @@ public class VehiclesData {
 			System.out.println("Error al borrar este elemento");
 			e.printStackTrace();
 		}
+	}
+	
+	public static Vehicles search(Vehicles vehicles, String id) {
+		try {
+			for(int i =0; i<getList().size(); i++) {
+				if(getList().get(i).getPlate().equalsIgnoreCase(id)){
+					System.out.println(getList().get(i).toString());
+					return getList().get(i);
+				}
+			}
+		}catch(Exception e) {
+			System.out.println("Error al buscar este elemento");
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 }

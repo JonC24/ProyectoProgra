@@ -28,6 +28,20 @@ public class MechanicsData {
 		}
 		return false;
 	}
+	
+	public static void edit(Mechanics mechanics, String id) {
+		try {
+			for(int i =0; i<getList().size(); i++) {
+				//System.out.println(getList().get(i).toString());
+				if(getList().get(i).getID().equalsIgnoreCase(id)){
+					getList().set(i, mechanics);					
+				}
+			}
+		}catch(Exception e) {
+			System.out.println("Error al editar este elemento");
+			e.printStackTrace();
+		}
+	}
 
 	public static ArrayList<Mechanics> getList() {
 		try {
@@ -52,4 +66,20 @@ public class MechanicsData {
 			e.printStackTrace();
 		}
 	}
+	
+	public static Mechanics search(Mechanics mechanics, String id) {
+		try {
+			for(int i =0; i<getList().size(); i++) {
+				if(getList().get(i).getID().equalsIgnoreCase(id)){
+					System.out.println(getList().get(i).toString());
+					return getList().get(i);
+				}
+			}
+		}catch(Exception e) {
+			System.out.println("Error al buscar este elemento");
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 }
