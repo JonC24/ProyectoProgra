@@ -7,142 +7,184 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-
 import javafx.scene.control.TextField;
-
 import java.io.IOException;
 
+import data.ClientsData;
+import data.VehiclesData;
+import domain.Clients;
+import domain.Vehicles;
+
 import javafx.event.ActionEvent;
-
 import javafx.scene.control.Label;
-
 import javafx.scene.control.ComboBox;
+import javafx.util.StringConverter;
 
 public class CreateVehicleController {
-	@FXML
-	private Label lbPlate;
-	@FXML
-	private TextField tfPlate;
-	@FXML
-	private Label lbBrand;
-	@FXML
-	private TextField tfBrand;
-	@FXML
-	private Label lbModel;
-	@FXML
-	private TextField tfModel;
-	@FXML
-	private Label lbYear;
-	@FXML
-	private TextField tfYear;
-	@FXML
-	private Label lbFuelType;
-	@FXML
-	private Button btnVehicle;
-	@FXML
-	private Button btnCancel;
-	@FXML
-	private ComboBox cbxTypeFuel;
-	@FXML
-	private Label lbOwner;
-	@FXML
-	private ComboBox cbxOwner;
-	
-	@FXML
-	public void initialize() {
-		cbxTypeFuel.getItems().addAll("","Gasolina","Diesel", "Electrico","Hibrido");
-	}
 
-	private boolean validForm() {
-		String message = "";
+    @FXML private Label lbPlate;
+    @FXML private TextField tfPlate;
+    @FXML private Label lbBrand;
+    @FXML private TextField tfBrand;
+    @FXML private Label lbModel;
+    @FXML private TextField tfModel;
+    @FXML private Label lbYear;
+    @FXML private TextField tfYear;
+    @FXML private Label lbFuelType;
+    
+    @FXML private Button btnVehicle; 
+    @FXML private Button btnCancel;
+    
+    @FXML private ComboBox<String> cbxTypeFuel;
+    @FXML private ComboBox<Clients> cbxOwner; 
 
-		
-		if (this.tfPlate.getText().trim().isEmpty()) {
-			tfPlate.setStyle("-fx-border-color:red; -fx-border-width:2;");
-			message += "Placa vacía \n";
-		} else {
-			tfPlate.setStyle("");
-		}
+    @FXML
+    public void initialize() {
+        initFuelComboBox();
+        initClientsComboBox();
+    }
 
-		
-		if (this.tfBrand.getText().trim().isEmpty()) {
-			tfBrand.setStyle("-fx-border-color:red; -fx-border-width:2;");
-			message += "Marca vacía \n";
-		} else {
-			tfBrand.setStyle("");
-		}
+    private void initFuelComboBox() {
+        cbxTypeFuel.getItems().addAll("", "Gasolina", "Diesel", "Electrico", "Hibrido");
+    }
 
-		
-		if (this.tfModel.getText().trim().isEmpty()) {
-			tfModel.setStyle("-fx-border-color:red; -fx-border-width:2;");
-			message += "Modelo vacío \n";
-		} else {
-			tfModel.setStyle("");
-		}
+    private void initClientsComboBox() {
+        cbxOwner.getItems().setAll(ClientsData.getList());
 
-		
-		if (this.tfYear.getText().trim().isEmpty()) {
-			tfYear.setStyle("-fx-border-color:red; -fx-border-width:2;");
-			message += "Año del vehículo vacío \n";
-		} else {
-			try {
-				Integer.parseInt(tfYear.getText().trim());
-				tfYear.setStyle("");
-			} catch (NumberFormatException e) {
-				message += "El año no es un número válido \n";
-				tfYear.setStyle("-fx-border-color:red; -fx-border-width:2;");
-			}
-		}
+        cbxOwner.setConverter(new StringConverter<Clients>() {
+            @Override
+            public String toString(Clients client) {
+                if (client == null) return "";
+                return client.getName() + " (" + client.getID() + ")";
+            }
 
-	
-		if (cbxTypeFuel.getValue() == null) {
-			cbxTypeFuel.setStyle("-fx-border-color:red; -fx-border-width:2;");
-			message += "Tipo de combustible no seleccionado \n";
-		} else {
-			cbxTypeFuel.setStyle("");
-		}
+            @Override
+            public Clients fromString(String string) {
+                return null; 
+            }
+        });
+    }
 
-		
-		if (cbxOwner.getValue() == null) {
-			cbxOwner.setStyle("-fx-border-color:red; -fx-border-width:2;");
-			message += "Dueño no seleccionado \n";
-		} else {
-			cbxOwner.setStyle("");
-		}
+    @FXML
+    public void SaveVehicle(ActionEvent event) {
+        if (validForm()) {
+            String plate = tfPlate.getText().trim();
+            String brand = tfBrand.getText().trim();
+            String model = tfModel.getText().trim();
+            String year = tfYear.getText().trim(); 
+            String fuelType = cbxTypeFuel.getValue();
+            
+            String propertyOwner = cbxOwner.getValue().getID(); 
 
-		
-		if (!message.isEmpty()) {
-			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.setHeaderText("Campos Faltantes o Inválidos");
-			alert.setTitle("Ups!");
-			alert.setContentText(message);
-			alert.show();
-		}
+            Vehicles newVehicle = new Vehicles(plate, brand, model, propertyOwner, year, fuelType);
 
-		return message.isEmpty();
-	}
+            if (VehiclesData.save(newVehicle)) {
+                showAlert(AlertType.INFORMATION, "Registro Exitoso", "El vehículo se guardó correctamente.");
+                cleanFields(); 
+            } else {
+                showAlert(AlertType.ERROR, "Error al Guardar", "No se pudo guardar el vehículo. Es posible que la placa ya exista.");
+            }
+        }
+    }
 
-	// Event Listener on Button[#btnVehicle].onAction
-	@FXML
-	public void SaveVehicle(ActionEvent event) {
-		if (validForm()) {
-			
-			System.out.println("Vehículo validado y listo para guardar.");
-		}
-	}
+    private void cleanFields() {
+        tfPlate.setText("");
+        tfBrand.setText("");
+        tfModel.setText("");
+        tfYear.setText("");
+        cbxTypeFuel.setValue(null);
+        cbxOwner.setValue(null);
 
-	// Event Listener on Button[#btnCancel].onAction
-	@FXML
-	public void Cancel(ActionEvent event) {
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/GUIMantenimientoDeClientes.fxml"));
-			Parent root = loader.load();
-			Scene scene = btnCancel.getScene();
-			scene.setRoot(root);
-			scene.getWindow().sizeToScene();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
+        tfPlate.setStyle("");
+        tfBrand.setStyle("");
+        tfModel.setStyle("");
+        tfYear.setStyle("");
+        cbxTypeFuel.setStyle("");
+        cbxOwner.setStyle("");
+    }
+
+    private boolean validForm() {
+        String message = "";
+
+        if (tfPlate.getText().trim().isEmpty()) {
+            tfPlate.setStyle("-fx-border-color:red; -fx-border-width:2;");
+            message += "Placa vacía \n";
+        } else {
+            tfPlate.setStyle("");
+        }
+
+        if (tfBrand.getText().trim().isEmpty()) {
+            tfBrand.setStyle("-fx-border-color:red; -fx-border-width:2;");
+            message += "Marca vacía \n";
+        } else {
+            tfBrand.setStyle("");
+        }
+
+        if (tfModel.getText().trim().isEmpty()) {
+            tfModel.setStyle("-fx-border-color:red; -fx-border-width:2;");
+            message += "Modelo vacío \n";
+        } else {
+            tfModel.setStyle("");
+        }
+
+        if (tfYear.getText().trim().isEmpty()) {
+            tfYear.setStyle("-fx-border-color:red; -fx-border-width:2;");
+            message += "Año vacío \n";
+        } else {
+            try {
+                Integer.parseInt(tfYear.getText().trim());
+                tfYear.setStyle("");
+            } catch (NumberFormatException e) {
+                message += "El año debe ser un número válido \n";
+                tfYear.setStyle("-fx-border-color:red; -fx-border-width:2;");
+            }
+        }
+
+        if (cbxTypeFuel.getValue() == null || cbxTypeFuel.getValue().isEmpty()) {
+            cbxTypeFuel.setStyle("-fx-border-color:red; -fx-border-width:2;");
+            message += "Tipo de combustible no seleccionado \n";
+        } else {
+            cbxTypeFuel.setStyle("");
+        }
+
+        if (cbxOwner.getValue() == null) {
+            cbxOwner.setStyle("-fx-border-color:red; -fx-border-width:2;");
+            message += "Dueño no seleccionado \n";
+        } else {
+            cbxOwner.setStyle("");
+        }
+
+        if (!message.isEmpty()) {
+            showAlert(AlertType.WARNING, "Campos Faltantes o Inválidos", message);
+        }
+
+        return message.isEmpty();
+    }
+    
+    private void showAlert(AlertType type, String title, String content) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.show();
+    }
+
+    @FXML
+    public void Cancel(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/GUIMantenimientoDeVehiculos.fxml"));
+            Parent root = loader.load();
+            Scene scene = btnCancel.getScene();
+            scene.setRoot(root);
+            scene.getWindow().sizeToScene();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    @FXML
+    public void ChooseFuel(ActionEvent event) {}
+
+    @FXML
+    public void ChooseClient(ActionEvent event) {}
 }

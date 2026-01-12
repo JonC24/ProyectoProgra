@@ -12,6 +12,10 @@ import javafx.scene.control.Label;
 import javafx.event.ActionEvent;
 import java.io.IOException;
 
+// Importaciones necesarias para conectar con los datos y el dominio
+import data.ClientsData;
+import domain.Clients;
+
 public class CreateClientController {
     @FXML private Label lbID;
     @FXML private TextField tfID;
@@ -29,15 +33,51 @@ public class CreateClientController {
     @FXML
     public void SaveClient(ActionEvent event) {
         if (validForm()) {
-            System.out.println("Guardando cliente...");
+            String id = tfID.getText().trim();
+            String name = tfFullName.getText().trim();
+            String phone = tfPhone.getText().trim();
+            String email = tfEmail.getText().trim();
+            String address = tfDirection.getText().trim();
+
+           
+            Clients newClient = new Clients(id, phone, name, email, address);
+
             
+            if (ClientsData.save(newClient)) {
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setHeaderText("Registro Exitoso");
+                alert.setTitle("Validación");
+                alert.setContentText("El cliente se guardó correctamente.");
+                alert.show();
+                
+                cleanFields();
+                
+            } else {
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setHeaderText("Error al Guardar");
+                alert.setTitle("Validación");
+                alert.setContentText("No se pudo guardar el cliente. \nEs posible que el ID ya exista.");
+                alert.show();
+            }
         }
+    }
+    
+    private void cleanFields() {
+        tfID.setText("");
+        tfFullName.setText("");
+        tfPhone.setText("");
+        tfEmail.setText("");
+        tfDirection.setText("");
+        tfID.setStyle("");
+        tfFullName.setStyle("");
+        tfPhone.setStyle("");
+        tfEmail.setStyle("");
+        tfDirection.setStyle("");
     }
 
     private boolean validForm() {
         String message = "";
 
-        
         if (this.tfID.getText().trim().isEmpty()) {
             tfID.setStyle("-fx-border-color:red; -fx-border-width:2;");
             message += "ID/Cédula vacío \n";
@@ -45,7 +85,6 @@ public class CreateClientController {
             tfID.setStyle("");
         }
 
-        
         if (this.tfFullName.getText().trim().isEmpty()) {
             tfFullName.setStyle("-fx-border-color:red; -fx-border-width:2;");
             message += "Nombre completo vacío \n";
@@ -53,13 +92,12 @@ public class CreateClientController {
             tfFullName.setStyle("");
         }
 
-       
         if (this.tfPhone.getText().trim().isEmpty()) {
             tfPhone.setStyle("-fx-border-color:red; -fx-border-width:2;");
             message += "Número de teléfono vacío \n";
         } else {
             try {
-                Long.parseLong(tfPhone.getText().trim()); // Usamos Long por si es un número grande
+                Long.parseLong(tfPhone.getText().trim()); 
                 tfPhone.setStyle("");
             } catch (NumberFormatException e) {
                 message += "El teléfono debe ser numérico \n";
@@ -67,7 +105,6 @@ public class CreateClientController {
             }
         }
 
-        
         if (this.tfEmail.getText().trim().isEmpty()) {
             tfEmail.setStyle("-fx-border-color:red; -fx-border-width:2;");
             message += "Email vacío \n";
@@ -75,7 +112,6 @@ public class CreateClientController {
             tfEmail.setStyle("");
         }
 
-       
         if (this.tfDirection.getText().trim().isEmpty()) {
             tfDirection.setStyle("-fx-border-color:red; -fx-border-width:2;");
             message += "Dirección vacía \n";

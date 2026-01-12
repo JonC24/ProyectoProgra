@@ -30,19 +30,24 @@ public class VehiclesData {
 		return false;
 	}
 	
-	public static void edit(Vehicles vehicles, String id) {
-		try {
-			for(int i =0; i<getList().size(); i++) {
-				//System.out.println(getList().get(i).toString());
-				if(getList().get(i).getPlate().equalsIgnoreCase(id)){
-					getList().set(i, vehicles);					
-				}
-			}
-		}catch(Exception e) {
-			System.out.println("Error al editar este elemento");
-			e.printStackTrace();
-		}
-	}
+    public static boolean edit(Vehicles vehicles, String originalPlate) {
+        try {
+            ArrayList<Vehicles> list = getList();
+            for(int i = 0; i < list.size(); i++) {
+                if(list.get(i).getPlate().equalsIgnoreCase(originalPlate)){
+                    
+                    jsonUtils.deleteElement(list.get(i), i);
+                    jsonUtils.saveElement(vehicles);
+                    
+                    return true; 
+                }
+            }
+        } catch(Exception e) {
+            System.out.println("Error al editar este elemento");
+            e.printStackTrace();
+        }
+        return false; 
+    }
 
 	public static ArrayList<Vehicles> getList() {
 		try {

@@ -70,19 +70,25 @@ public class ClientsData {
 		return null;
 	}
 	
-	public static void edit(Clients clients, String id) {
-		try {
-			for(int i =0; i<getList().size(); i++) {
-				//System.out.println(getList().get(i).toString());
-				if(getList().get(i).getID().equalsIgnoreCase(id)){
-					getList().set(i, clients);					
-				}
-			}
-		}catch(Exception e) {
-			System.out.println("Error al editar este elemento");
-			e.printStackTrace();
-		}
-	}
+	public static boolean edit(Clients newClientData, String originalId) {
+        try {
+            ArrayList<Clients> currentList = getList();
+            for(int i = 0; i < currentList.size(); i++) {
+                if(currentList.get(i).getID().equalsIgnoreCase(originalId)){
+                    
+                    
+                    jsonUtils.deleteElement(currentList.get(i), i);
+                    jsonUtils.saveElement(newClientData);
+                    
+                    return true;
+                }
+            }
+        } catch(Exception e) {
+            System.out.println("Error al editar este elemento");
+            e.printStackTrace();
+        }
+        return false;
+    }
 	
 	
 }

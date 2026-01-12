@@ -80,11 +80,9 @@ public class MechanicsData {
 	
 	public static String automaticId() {
 
-	    // 1. Si la lista está vacía, empezamos en 1
 	    if (getList() == null || getList().isEmpty()) {
 	        return Integer.toString(1);
 	    }
-	    // 2. Buscamos el ID más grande que ya exista
 	    int maxId = 0;
 	    for (Mechanics m : getList()) {
 	        if (Integer.parseInt(m.getID())> maxId) {
@@ -92,7 +90,6 @@ public class MechanicsData {
 	        }
 	    }
 
-	    // 3. El nuevo ID es el máximo encontrado + 1
 	    return Integer.toString(maxId + 1);
 	}
 	

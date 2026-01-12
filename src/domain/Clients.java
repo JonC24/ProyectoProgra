@@ -3,6 +3,10 @@ package domain;
 public class Clients {
 	private String Name, email, adress,ID,Phone;
 	
+	public Clients() {
+        super();
+    }
+	
 	public Clients(String iD, String phone, String name, String email, String adress) {
 		super();
 		ID = iD;

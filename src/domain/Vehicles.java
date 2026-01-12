@@ -7,6 +7,8 @@ public class Vehicles {
 	private String plate, brand, model, propertyOwner, year;
 	private String fuelType;
 	
+	public Vehicles() {}
+		
 	public Vehicles(String plate, String brand, String model, String propertyOwner, String year, String fuelType) {
 		super();
 		this.plate = plate;
