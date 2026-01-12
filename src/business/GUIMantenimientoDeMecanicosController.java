@@ -156,8 +156,6 @@ public class GUIMantenimientoDeMecanicosController {
             refreshTable(); 
         }
 	}
-	// Event Listener on TableView.onMouseClicked
-	
 	
 	
 	// Event Listener on Button[#btnCancelar].onAction

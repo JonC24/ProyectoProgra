@@ -24,55 +24,43 @@ public class EditClientController {
     @FXML private Button bthEdit;
     @FXML private Button btnCancel;
 
-    // Variable para guardar el cliente original que estamos editando
+    
     private Clients originalClient;
 
     public void initData(Clients client) {
         this.originalClient = client;
 
-        // Llenar los campos visuales
         tfID.setText(client.getID());
         tfFullName.setText(client.getName());
         tfPhone.setText(client.getPhone());
         tfEmail.setText(client.getEmail());
         tfDirection.setText(client.getAdress());
 
-        // Deshabilitar el ID para que no lo cambien (es la llave primaria)
         tfID.setDisable(true);
     }
 
     @FXML
     public void EditClient(ActionEvent event) {
-        // 1. Validar el formulario
         if (validForm()) {
             
-            // 2. Obtener los nuevos datos de los campos de texto
-            String id = tfID.getText().trim(); // El ID se mantiene igual
+            String id = tfID.getText().trim(); 
             String name = tfFullName.getText().trim();
             String phone = tfPhone.getText().trim();
             String email = tfEmail.getText().trim();
             String address = tfDirection.getText().trim();
 
-            // 3. Crear el objeto con los datos actualizados
-            // NOTA: El orden debe coincidir con tu constructor en Clients.java: (ID, Phone, Name, Email, Adress)
             Clients updatedClient = new Clients(id, phone, name, email, address);
 
-            // 4. Llamar a la capa de datos para guardar
-            // Pasamos el objeto nuevo y el ID original para que el sistema sepa cuál reemplazar
             if (ClientsData.edit(updatedClient, originalClient.getID())) {
                 
-                // ÉXITO
                 Alert alert = new Alert(AlertType.INFORMATION);
                 alert.setHeaderText("Actualización Exitosa");
                 alert.setTitle("Éxito");
                 alert.setContentText("Los datos del cliente se han actualizado correctamente.");
-                alert.showAndWait(); // Esperamos a que el usuario de OK
                 
-                // Regresamos a la lista
                 Cancel(event); 
 
             } else {
-                // ERROR
                 Alert alert = new Alert(AlertType.ERROR);
                 alert.setHeaderText("Error al Actualizar");
                 alert.setTitle("Error");
@@ -85,7 +73,6 @@ public class EditClientController {
     private boolean validForm() {
         String message = "";
         
-        // Validación ID
         if (tfID.getText().trim().isEmpty()) { 
             tfID.setStyle("-fx-border-color:red; -fx-border-width:2;"); 
             message += "ID vacío\n"; 
@@ -93,7 +80,6 @@ public class EditClientController {
             tfID.setStyle(""); 
         }
 
-        // Validación Nombre
         if (tfFullName.getText().trim().isEmpty()) { 
             tfFullName.setStyle("-fx-border-color:red; -fx-border-width:2;"); 
             message += "Nombre vacío\n"; 
@@ -101,7 +87,6 @@ public class EditClientController {
             tfFullName.setStyle(""); 
         }
 
-        // Validación Teléfono
         if (tfPhone.getText().trim().isEmpty()) {
             tfPhone.setStyle("-fx-border-color:red; -fx-border-width:2;"); 
             message += "Teléfono vacío\n";
@@ -115,7 +100,6 @@ public class EditClientController {
             }
         }
 
-        // Validación Email
         if (tfEmail.getText().trim().isEmpty()) { 
             tfEmail.setStyle("-fx-border-color:red; -fx-border-width:2;"); 
             message += "Email vacío\n"; 
@@ -123,7 +107,6 @@ public class EditClientController {
             tfEmail.setStyle(""); 
         }
 
-        // Validación Dirección
         if (tfDirection.getText().trim().isEmpty()) { 
             tfDirection.setStyle("-fx-border-color:red; -fx-border-width:2;"); 
             message += "Dirección vacía\n"; 

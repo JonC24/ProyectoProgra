@@ -51,7 +51,6 @@ public class EditServiceController {
 	@FXML
 	private TextField tfEstimatedTime;
 
-	// store original service code so we can find the item to replace
 	private String originalCode;
 
 	public void initialize() {
@@ -146,7 +145,6 @@ public class EditServiceController {
 	@FXML
 	public void EditService(ActionEvent event) {
 		if (validForm()) {
-			// read values
 			String code = tfCodeService.getText().trim();
 			String name = cbxNameOfService.getValue() == null ? "" : cbxNameOfService.getValue().toString().trim();
 			String description = tfDescription.getText().trim();

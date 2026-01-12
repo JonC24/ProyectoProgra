@@ -195,7 +195,6 @@ public class EditVehicleController {
         // Auto-generated
     }
 
-    // ESTE ES EL MÉTODO QUE FALTABA PARA SOLUCIONAR EL ERROR
     @FXML
     public void ChooseFuelType(ActionEvent event) {
         // Auto-generated

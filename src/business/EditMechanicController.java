@@ -59,21 +59,17 @@ public class EditMechanicController {
 	public void initData(Mechanics mechanic) {
         this.originalMechanic = mechanic;
 
-        // Llenar los campos visuales
         tfID.setText(mechanic.getID());
         tfFullName.setText(mechanic.getFullName());
         tfPhone.setText(mechanic.getPhone());
         tfEmail.setText(mechanic.getEmail());
         cbxSpeciality.setValue(mechanic.getSpeciality());
 
-        // Deshabilitar el ID para que no lo cambien (es la llave primaria)
         tfID.setDisable(true);
     }
-	// Método de validación siguiendo el patrón anterior
 		private boolean validForm() {
 			String message = "";
 
-			// Validación Nombre Completo
 			if (this.tfFullName.getText().trim().isEmpty()) {
 				tfFullName.setStyle("-fx-border-color:red; -fx-border-width:2;");
 				message += "Nombre completo vacío \n";
@@ -81,7 +77,6 @@ public class EditMechanicController {
 				tfFullName.setStyle("");
 			}
 
-			// Validación Especialidad (ComboBox)
 			if (cbxSpeciality.getValue() == null) {
 				cbxSpeciality.setStyle("-fx-border-color:red; -fx-border-width:2;");
 				message += "Especialidad no seleccionada \n";
@@ -89,7 +84,6 @@ public class EditMechanicController {
 				cbxSpeciality.setStyle("");
 			}
 
-			// Validación Teléfono (Numérico)
 			if (this.tfPhone.getText().trim().isEmpty()) {
 				tfPhone.setStyle("-fx-border-color:red; -fx-border-width:2;");
 				message += "Número de teléfono vacío \n";
@@ -103,7 +97,6 @@ public class EditMechanicController {
 				}
 			}
 
-			// Validación Email
 			if (this.tfEmail.getText().trim().isEmpty()) {
 				tfEmail.setStyle("-fx-border-color:red; -fx-border-width:2;");
 				message += "Correo electrónico vacío \n";
@@ -111,7 +104,6 @@ public class EditMechanicController {
 				tfEmail.setStyle("");
 			}
 
-			// Mostrar Alerta si hay errores
 			if (!message.isEmpty()) {
 				Alert alert = new Alert(AlertType.INFORMATION);
 				alert.setHeaderText("Campos Faltantes o Inválidos");
@@ -134,8 +126,6 @@ public class EditMechanicController {
 	            String speciality = cbxSpeciality.getValue().toString();
 	           
 	            Mechanics updatedMechanic = new Mechanics(tfID.getText(), name, speciality, email, phone);
-	            // 4. Llamar a la capa de datos para guardar
-	            // Pasamos el objeto nuevo y el ID original para que el sistema sepa cuál reemplazar
 	           System.out.println(tfID.getText()+"\n"+originalMechanic.getID());
 	            if (MechanicsData.edit(updatedMechanic, originalMechanic.getID())) {
 	                
@@ -144,9 +134,8 @@ public class EditMechanicController {
 	                alert.setHeaderText("Actualización Exitosa");
 	                alert.setTitle("Éxito");
 	                alert.setContentText("Los datos del cliente se han actualizado correctamente.");
-	                alert.showAndWait(); // Esperamos a que el usuario de OK
+	                alert.showAndWait(); 
 	                
-	                // Regresamos a la lista
 	                Cancel(event); 
 
 	            } else {
