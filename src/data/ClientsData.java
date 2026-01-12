@@ -70,8 +70,18 @@ public class ClientsData {
 		return null;
 	}
 	
-	public static boolean edit(Clients client) {
-		return true;
+	public static void edit(Clients clients, String id) {
+		try {
+			for(int i =0; i<getList().size(); i++) {
+				//System.out.println(getList().get(i).toString());
+				if(getList().get(i).getID().equalsIgnoreCase(id)){
+					getList().set(i, clients);					
+				}
+			}
+		}catch(Exception e) {
+			System.out.println("Error al editar este elemento");
+			e.printStackTrace();
+		}
 	}
 	
 	
