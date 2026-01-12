@@ -2,13 +2,15 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:controller="business.CreateOrdersController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="441.0" prefWidth="219.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="441.0" prefWidth="382.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="business.CreateOrdersController">
    <children>
+   <ComboBox fx:id="cbxAppliedServ" layoutX="13.0" layoutY="285.0" prefHeight="25.0" prefWidth="120.0" />
+<Button fx:id="btnAddService" layoutX="140.0" layoutY="285.0" mnemonicParsing="false" onAction="#AddServiceToList" text="+" />
       <Label fx:id="lbNumOfOrder" layoutX="14.0" layoutY="14.0" text="Numero de la orden" />
       <TextField fx:id="tfNumOfOrder" layoutX="14.0" layoutY="31.0" prefHeight="25.0" prefWidth="174.0" />
       <Label fx:id="lbNameOfService" layoutX="14.0" layoutY="56.0" text="Nombre Del Servicio" />
@@ -18,16 +20,16 @@
       <Button fx:id="btnSaveOrder" layoutX="38.0" layoutY="402.0" mnemonicParsing="false" onAction="#SaveOrder" prefHeight="25.0" prefWidth="62.0" text="Guardar" />
       <Button fx:id="btnCancel" layoutX="104.0" layoutY="402.0" mnemonicParsing="false" onAction="#Cancel" text="Cancelar" />
       <Label fx:id="lbAsignatedMechanic" layoutX="15.0" layoutY="224.0" text="Mecanico asignado" />
-      <DatePicker layoutX="14.0" layoutY="73.0" />
-      <ComboBox fx:id="cbxStateOfOrder" layoutX="14.0" layoutY="115.0" onAction="#ChooseStateOfOrder" prefHeight="25.0" prefWidth="174.0" />
-      <ComboBox fx:id="cbxVehicle" layoutX="14.0" layoutY="157.0" onAction="#ChooseVehicle" prefHeight="25.0" prefWidth="174.0" />
-      <ComboBox fx:id="cbxClient" layoutX="14.0" layoutY="199.0" onAction="#ChooseClient" prefHeight="25.0" prefWidth="174.0" />
-      <ComboBox fx:id="cbxAsignatedMech" layoutX="13.0" layoutY="241.0" onAction="#ChooseAsigMech" prefHeight="25.0" prefWidth="174.0" />
-      <ComboBox fx:id="cbxAppliedServ" layoutX="13.0" layoutY="285.0" onAction="#ChooseAppliedserv" prefHeight="25.0" prefWidth="174.0" />
+      <ComboBox fx:id="cbxStateOfOrder" layoutX="14.0" layoutY="115.0" prefHeight="25.0" prefWidth="174.0" />
+      <ComboBox fx:id="cbxVehicle" layoutX="14.0" layoutY="157.0" prefHeight="25.0" prefWidth="174.0" />
+      <ComboBox fx:id="cbxClient" layoutX="14.0" layoutY="199.0" prefHeight="25.0" prefWidth="174.0" />
+      <ComboBox fx:id="cbxAsignatedMech" layoutX="13.0" layoutY="241.0" prefHeight="25.0" prefWidth="174.0" />
       <Label fx:id="lbAppliedServices" layoutX="19.0" layoutY="268.0" text="Servicios aplicados" />
       <Label fx:id="lbObservations" layoutX="14.0" layoutY="310.0" text="Observaciones" />
       <TextField fx:id="tfObservations" layoutX="14.0" layoutY="327.0" prefHeight="25.0" prefWidth="174.0" promptText="Ej: LLantas no alineadas" />
       <Label fx:id="lbTotalCost" layoutX="14.0" layoutY="352.0" text="Costo Total" />
       <TextField fx:id="tfTotalCost" layoutX="14.0" layoutY="369.0" prefHeight="25.0" prefWidth="174.0" />
+      <TextField fx:id="tfNameOrder" layoutX="14.0" layoutY="74.0" prefHeight="25.0" prefWidth="174.0" />
+      <ListView fx:id="lvSelectedServices" layoutX="201.0" layoutY="192.0" prefHeight="200.0" prefWidth="174.0" />
    </children>
 </AnchorPane>

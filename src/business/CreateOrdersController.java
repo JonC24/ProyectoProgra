@@ -6,16 +6,30 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.util.StringConverter;
 import javafx.scene.control.Button;
 
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
+import data.ClientsData;
+import data.ServicesData;
+import data.WorkOrdersData;
+import domain.Clients;
+import domain.Mechanics;
+import domain.Services;
+import domain.Vehicles;
+import domain.WorkOrders;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 
 import javafx.scene.control.Label;
-
+import javafx.scene.control.ListView;
 import javafx.scene.control.ComboBox;
 
 public class CreateOrdersController {
@@ -25,6 +39,8 @@ public class CreateOrdersController {
 	private TextField tfNumOfOrder;
 	@FXML
 	private Label lbNameOfService;
+	@FXML
+	private TextField tfNameOrder;
 	@FXML
 	private Label lbStateOfOrder;
 	@FXML
@@ -40,13 +56,13 @@ public class CreateOrdersController {
 	@FXML
 	private ComboBox cbxStateOfOrder;
 	@FXML
-	private ComboBox cbxVehicle;
+	private ComboBox<Vehicles> cbxVehicle;
 	@FXML
-	private ComboBox cbxClient;
+	private ComboBox<Clients> cbxClient;
 	@FXML
-	private ComboBox cbxAsignatedMech;
+	private ComboBox<Mechanics> cbxAsignatedMech;
 	@FXML
-	private ComboBox cbxAppliedServ;
+	private ComboBox<Services> cbxAppliedServ;
 	@FXML
 	private Label lbAppliedServices;
 	@FXML
@@ -57,7 +73,60 @@ public class CreateOrdersController {
 	private Label lbTotalCost;
 	@FXML
 	private TextField tfTotalCost;
+	
+	private ObservableList<Services> selectedServicesList;
+	private ObservableList<Services> obserServices;
+	private ObservableList<Vehicles> observ;
+	private ObservableList<Clients> obserc;
+	private ObservableList<Mechanics> obserMechanics;
 
+
+	@FXML
+	private ListView<Services> lvSelectedServices;
+
+	// 2. En el initialize, vincula la lista con el ListView
+	@FXML
+	public void initialize() {
+		cbxStateOfOrder.getItems().addAll("Registrada", "En proceso", "Completada", "Entregada", "Cancelada");
+		cbxVehicle.setItems(observ);
+		cbxClient.setItems(obserc);
+		cbxAsignatedMech.setItems(obserMechanics);
+		
+		obserServices= FXCollections.observableArrayList(ServicesData.getList());
+		selectedServicesList= FXCollections.observableArrayList(ServicesData.getList());
+	    lvSelectedServices.setItems(selectedServicesList);
+	    cbxAppliedServ.setItems(obserServices);
+	    
+	    
+	    
+	    
+	    
+	}
+	
+	@FXML
+	public void AddServiceToList(ActionEvent event) {
+
+	    Services selected = cbxAppliedServ.getValue();
+	    if (selected != null) {
+	        // Añadir a la lista
+	        selectedServicesList.add(selected);
+	        
+	        // REGLA DE NEGOCIO: Actualizar el costo total automáticamente
+	        updateTotalCost();
+	    } else {
+	        // Mostrar alerta de que debe seleccionar un servicio primero
+	    }
+	}
+	
+	private void updateTotalCost() {
+	    double total = 0;
+	    for (Services s : selectedServicesList) {
+	        total += s.getBaseCost(); // Asumiendo que tu clase Services tiene getBaseCost()
+	    }
+	    tfTotalCost.setText(String.valueOf(total));
+	}
+
+	
 	// Método de validación siguiendo el patrón establecido
 		private boolean validForm() {
 			String message = "";
@@ -149,16 +218,94 @@ public class CreateOrdersController {
 
 			return message.isEmpty();
 		}
+		private void initClientsComboBox() {
+			cbxClient.getItems().setAll(ClientsData.getList());
+
+	        cbxClient.setConverter(new StringConverter<Clients>() {
+	            @Override
+	            public String toString(Clients client) {
+	                if (client == null) return "";
+	                return client.getName() + " (" + client.getID() + ")";
+	            }
+
+	            @Override
+	            public Clients fromString(String string) {
+	                return null; 
+	            }
+	        });
+	    }
 
 		// Event Listener on Button[#btnSaveOrder].onAction
 		@FXML
-		public void SaveOrder(ActionEvent event) {
-			if (validForm()) {
-				// Lógica para guardar la orden de trabajo
-				// WorkOrder order = new WorkOrder(...);
-				// orderDAO.save(order);
-				System.out.println("Orden validada correctamente y lista para guardar.");
-			}
+		public void SaveOrder(ActionEvent event) { if (validForm()) {
+	        try {
+	            // 1. Extraer datos de los campos simples
+	            String numOrder = tfNumOfOrder.getText().trim();
+	            LocalDate date = LocalDate.now(); // Fecha actual
+	            String state = cbxStateOfOrder.getValue().toString();
+	            String observations = tfObservations.getText().trim();
+	            
+	            // Convertir el costo total a double
+	            double totalCost = 0.0;
+	            if (!tfTotalCost.getText().isEmpty()) {
+	                totalCost = Double.parseDouble(tfTotalCost.getText());
+	            }
+
+	            // 2. Extraer objetos de los ComboBox
+	            // Asumimos que los ComboBox están cargados con los objetos correspondientes
+	            Vehicles selectedVehicle = cbxVehicle.getValue();
+	            Mechanics selectedMechanic = cbxAsignatedMech.getValue();
+	            
+	            // 3. Manejo de la lista de servicios
+	            // Como el FXML solo permite elegir uno en el combo, creamos una lista con ese servicio
+	            List<Services> servicesList = new ArrayList<>();
+	            if (cbxAppliedServ.getValue() != null) {
+	                servicesList.add(cbxAppliedServ.getValue());
+	            }
+
+	            // 4. Crear la instancia de WorkOrders
+	            WorkOrders newOrder = new WorkOrders(
+	                numOrder, 
+	                date, 
+	                state, 
+	                observations, 
+	                totalCost, 
+	                selectedVehicle, 
+	                selectedMechanic, 
+	                servicesList
+	            );
+
+	            // 5. Guardar usando la clase de persistencia (siguiendo tu lógica de ClientsData)
+	            // Asumo que tienes una clase WorkOrdersData con un método save
+	            if (WorkOrdersData.save(newOrder)) {
+	                Alert alert = new Alert(AlertType.INFORMATION);
+	                alert.setHeaderText("Registro Exitoso");
+	                alert.setTitle("Validación");
+	                alert.setContentText("La orden de trabajo #" + numOrder + " se guardó correctamente.");
+	                alert.show();
+	                
+	                
+	            } else {
+	                Alert alert = new Alert(AlertType.ERROR);
+	                alert.setHeaderText("Error al Guardar");
+	                alert.setTitle("Validación");
+	                alert.setContentText("No se pudo guardar la orden. \nVerifique si el número de orden ya existe.");
+	                alert.show();
+	            }
+
+	        } catch (NumberFormatException e) {
+	            Alert alert = new Alert(AlertType.ERROR);
+	            alert.setHeaderText("Error de Formato");
+	            alert.setContentText("El costo total debe ser un número válido.");
+	            alert.show();
+	        } catch (Exception e) {
+	            Alert alert = new Alert(AlertType.ERROR);
+	            alert.setHeaderText("Error Inesperado");
+	            alert.setContentText("Ocurrió un error: " + e.getMessage());
+	            alert.show();
+	        }
+	    }
+	    // restartWindow(); // Opcional: si quieres cerrar o reiniciar la ventana
 		}
 	// Event Listener on Button[#btnCancel].onAction
 	@FXML
@@ -172,30 +319,5 @@ public class CreateOrdersController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-	// Event Listener on ComboBox[#cbxStateOfOrder].onAction
-	@FXML
-	public void ChooseStateOfOrder(ActionEvent event) {
-		// TODO Autogenerated
-	}
-	// Event Listener on ComboBox[#cbxVehicle].onAction
-	@FXML
-	public void ChooseVehicle(ActionEvent event) {
-		// TODO Autogenerated
-	}
-	// Event Listener on ComboBox[#cbxClient].onAction
-	@FXML
-	public void ChooseClient(ActionEvent event) {
-		// TODO Autogenerated
-	}
-	// Event Listener on ComboBox[#cbxAsignatedMech].onAction
-	@FXML
-	public void ChooseAsigMech(ActionEvent event) {
-		// TODO Autogenerated
-	}
-	// Event Listener on ComboBox[#cbxAppliedServ].onAction
-	@FXML
-	public void ChooseAppliedserv(ActionEvent event) {
-		// TODO Autogenerated
 	}
 }

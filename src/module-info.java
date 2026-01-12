@@ -7,6 +7,7 @@ module ProyectoProgra {
 	requires com.fasterxml.jackson.datatype.jsr310;
 	requires javafx.fxml;
 	requires javafx.graphics;
+	requires javafx.base;
 	
     opens domain;
 

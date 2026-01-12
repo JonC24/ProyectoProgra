@@ -14,13 +14,15 @@ public class WorkOrdersData {
 	public WorkOrdersData() {
 	}
 
-	public static void save(WorkOrders workOrders) {
+	public static boolean save(WorkOrders workOrders) {
 		try {
 			jsonUtils.saveElement(workOrders);
+			return true;
 		} catch (Exception e) {
 			System.out.println("Error al guardar WorkOrdersData.saveWorkOrder");
 			e.printStackTrace();
 		}
+		return false;
 	}
 
 	public static ArrayList<WorkOrders> getList() {
