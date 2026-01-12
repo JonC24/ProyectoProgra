@@ -9,7 +9,7 @@
 	import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 	public class JsonUtils <T>{
-
+//main
 		private String filePath; //Ruta del JSON
 		
 		private static final ObjectMapper mapper = new ObjectMapper()
@@ -34,13 +34,12 @@
 		    );
 		}
 		
-		public void deleteElement(T t, String d)throws IOException{
+		public void deleteElement(T t, int i)throws IOException{
 			List<T> temp = getAll((Class<T>) t.getClass());
-			int index = 0;
 			
-			
-			
-			temp.remove(index);
+			System.out.println("Elemento que se eliomjno: "+temp.get(i).toString());
+			temp.remove(i);
+			this.mapper.writeValue(new File(filePath), temp);
 		}
 		
 		public void saveElement(T t)throws IOException{

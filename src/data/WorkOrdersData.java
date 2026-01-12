@@ -2,6 +2,7 @@ package data;
 
 import java.util.ArrayList;
 
+import domain.Vehicles;
 import domain.WorkOrders;
 
 public class WorkOrdersData {
@@ -12,7 +13,7 @@ public class WorkOrdersData {
 	public WorkOrdersData() {
 	}
 
-	public static void saveStudent(WorkOrders workOrders) {
+	public static void save(WorkOrders workOrders) {
 		
 
 		try {
@@ -30,6 +31,19 @@ public class WorkOrdersData {
 			e.printStackTrace();
 			System.out.println("Error al recuperar lista de Ordenes de trabajo");
 			return new ArrayList<WorkOrders>();
+		}
+	}
+	public static void delete(WorkOrders workOrders, String id) {
+		try {
+			for(int i =0; i<getList().size(); i++) {
+				//System.out.println(getList().get(i).toString());
+				if(getList().get(i).getNumOfOrder().equalsIgnoreCase(id)){
+					jsonUtils.deleteElement(workOrders, i);
+				}
+			}
+		}catch(Exception e) {
+			System.out.println("Error al borrar este elemento");
+			e.printStackTrace();
 		}
 	}
 }

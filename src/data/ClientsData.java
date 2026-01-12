@@ -3,7 +3,8 @@ package data;
 import java.util.ArrayList;
 
 import domain.Clients;
-
+import domain.Mechanics;
+//main
 public class ClientsData {
 	
 	private static String filePath = "Clients.json";
@@ -13,15 +14,21 @@ public class ClientsData {
 	public ClientsData() {
 	}
 
-	public static void saveStudent(Clients clients) {
-		
-
+	public static boolean save(Clients clients) {
 		try {
+			for(int i =0; i<getList().size(); i++) {
+				if(getList().get(i).getID().equalsIgnoreCase(clients.getID())){
+					return false;
+				}
+			}
 			jsonUtils.saveElement(clients);
+			return true;
+			
 		} catch (Exception e) {
 			System.out.println("Error al guardar clientsData.saveclient");
 			e.printStackTrace();
 		}
+		return false;
 	}
 
 	public static ArrayList<Clients> getList() {
@@ -34,9 +41,14 @@ public class ClientsData {
 		}
 	}
 	
-	public static void deletStudent(Clients clients) {
+	public static void delete(Clients clients, String id) {
 		try {
-			
+			for(int i =0; i<getList().size(); i++) {
+				//System.out.println(getList().get(i).toString());
+				if(getList().get(i).getID().equalsIgnoreCase(id)){
+					jsonUtils.deleteElement(clients, i);
+				}
+			}
 		}catch(Exception e) {
 			System.out.println("Error al borrar este elemento");
 			e.printStackTrace();

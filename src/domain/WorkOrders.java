@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class WorkOrders {
-	private int numOfOrder;
+	private String numOfOrder;
 	private LocalDate orderDate;
 	private String OrderStatus, observations;
 	private double totalCost;
@@ -13,7 +13,7 @@ public class WorkOrders {
 	private Mechanics mechanic;
 	private List<Services> appliedServices;
 	
-	public WorkOrders(int numOfOrder, LocalDate orderDate, String orderStatus, String observations, double totalCost,
+	public WorkOrders(String numOfOrder, LocalDate orderDate, String orderStatus, String observations, double totalCost,
 			Vehicles vehicle, Mechanics mechanic, List<Services> appliedServices) {
 		super();
 		this.numOfOrder = numOfOrder;
@@ -26,11 +26,11 @@ public class WorkOrders {
 		this.appliedServices = appliedServices;
 	}
 
-	public int getNumOfOrder() {
+	public String getNumOfOrder() {
 		return numOfOrder;
 	}
 
-	public void setNumOfOrder(int numOfOrder) {
+	public void setNumOfOrder(String numOfOrder) {
 		this.numOfOrder = numOfOrder;
 	}
 

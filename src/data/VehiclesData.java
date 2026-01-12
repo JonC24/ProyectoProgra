@@ -12,15 +12,21 @@ public class VehiclesData {
 	public VehiclesData() {
 	}
 
-	public static void saveStudent(Vehicles vehicles) {
-		
-
+	public static boolean save(Vehicles vehicles) {
 		try {
+			for(int i =0; i<getList().size(); i++) {
+				if(getList().get(i).getPlate().equalsIgnoreCase(vehicles.getPlate())){
+					return false;
+				}
+			}
 			jsonUtils.saveElement(vehicles);
+			return true;
+			
 		} catch (Exception e) {
-			System.out.println("Error al guardar VehiclesData.saveVehicles");
+			System.out.println("Error al guardar clientsData.saveclient");
 			e.printStackTrace();
 		}
+		return false;
 	}
 
 	public static ArrayList<Vehicles> getList() {
@@ -32,4 +38,19 @@ public class VehiclesData {
 			return new ArrayList<Vehicles>();
 		}
 	}
+	
+	public static void delete(Vehicles vehicles, String id) {
+		try {
+			for(int i =0; i<getList().size(); i++) {
+				//System.out.println(getList().get(i).toString());
+				if(getList().get(i).getPlate().equalsIgnoreCase(id)){
+					jsonUtils.deleteElement(vehicles, i);
+				}
+			}
+		}catch(Exception e) {
+			System.out.println("Error al borrar este elemento");
+			e.printStackTrace();
+		}
+	}
+	
 }
