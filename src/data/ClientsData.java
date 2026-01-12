@@ -55,4 +55,24 @@ public class ClientsData {
 		}
 	}
 	
+	public static Clients search(Clients clients, String id) {
+		try {
+			for(int i =0; i<getList().size(); i++) {
+				if(getList().get(i).getID().equalsIgnoreCase(id)){
+					System.out.println(getList().get(i).toString());
+					return getList().get(i);
+				}
+			}
+		}catch(Exception e) {
+			System.out.println("Error al buscar este elemento");
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static boolean edit(Clients client) {
+		return true;
+	}
+	
+	
 }
